@@ -18,60 +18,60 @@ st.sidebar.header('User Input Features')
 def user_input_features():
     temp_array = list()
     teams = ['AUS','BAN','ENG','IND','NZ','PAK','SA','SL','WI']
-    Bat_team = st.sidebar.selectbox('Bat_team',teams)
+    bat_team = st.sidebar.selectbox('Batting team', teams)
 
-    if Bat_team == 'AUS':
+    if bat_team == 'AUS':
         temp_array = temp_array + [0,0,0,0,0,0,0,0]
-    elif Bat_team == 'BAN':
+    elif bat_team == 'BAN':
         temp_array = temp_array + [1,0,0,0,0,0,0,0]
-    elif Bat_team == 'ENG':
+    elif bat_team == 'ENG':
         temp_array = temp_array + [0,1,0,0,0,0,0,0]
-    elif Bat_team == 'IND':
+    elif bat_team == 'IND':
         temp_array = temp_array + [0,0,1,0,0,0,0,0]
-    elif Bat_team == 'NZ':
+    elif bat_team == 'NZ':
         temp_array = temp_array + [0,0,0,1,0,0,0,0]
-    elif Bat_team == 'PAK':
+    elif bat_team == 'PAK':
         temp_array = temp_array + [0,0,0,0,1,0,0,0]
-    elif Bat_team == 'SA':
+    elif bat_team == 'SA':
         temp_array = temp_array + [0,0,0,0,0,1,0,0]
-    elif Bat_team == 'SL':
+    elif bat_team == 'SL':
         temp_array = temp_array + [0,0,0,0,0,0,1,0]
-    elif Bat_team == 'WI':
+    elif bat_team == 'WI':
         temp_array = temp_array + [0,0,0,0,0,0,0,1]
 
-    # Bowl_team = ''
-    # teams.remove(Bat_team)
+    # bowl_team = ''
+    # teams.remove(bat_team)
     # print(teams)
-    Bowl_team  = st.sidebar.selectbox('Bowl_team',teams)
+    bowl_team  = st.sidebar.selectbox('Bowling team', [team for team in teams if team != bat_team])
     
-    if Bowl_team == 'AUS':
+    if bowl_team == 'AUS':
         temp_array = temp_array + [0,0,0,0,0,0,0,0]
-    elif Bowl_team == 'BAN':
+    elif bowl_team == 'BAN':
         temp_array = temp_array + [1,0,0,0,0,0,0,0]
-    elif Bowl_team == 'ENG':
+    elif bowl_team == 'ENG':
         temp_array = temp_array + [0,1,0,0,0,0,0,0]
-    elif Bowl_team == 'IND':
+    elif bowl_team == 'IND':
         temp_array = temp_array + [0,0,1,0,0,0,0,0]
-    elif Bowl_team == 'NZ':
+    elif bowl_team == 'NZ':
         temp_array = temp_array + [0,0,0,1,0,0,0,0]
-    elif Bowl_team == 'PAK':
+    elif bowl_team == 'PAK':
         temp_array = temp_array + [0,0,0,0,1,0,0,0]
-    elif Bowl_team == 'SA':
+    elif bowl_team == 'SA':
         temp_array = temp_array + [0,0,0,0,0,1,0,0]
-    elif Bowl_team == 'SL':
+    elif bowl_team == 'SL':
         temp_array = temp_array + [0,0,0,0,0,0,1,0]
-    elif Bowl_team == 'WI':
+    elif bowl_team == 'WI':
         temp_array = temp_array + [0,0,0,0,0,0,0,1]
 
-    over = st.sidebar.slider('over', 0,19,10)
-    ball = st.sidebar.slider('ball', 1,6,3)
+    over = st.sidebar.slider('Over no', 0,19,10)
+    ball = st.sidebar.slider('Ball no', 1,6,3)
     overs = float(str(over)+ '.'+ str(ball))
-    total_score = st.sidebar.slider('total_score', 10,250,87)
-    total_wickets = st.sidebar.slider('total_wickets', 0,9,2)
-    prev_runs_30 = st.sidebar.slider('prev_runs_30', 10,90,39)
-    prev_wickets_30 = st.sidebar.slider('prev_wickets_30', 0,9,1)
-    prev_30_dot_balls = st.sidebar.slider('prev_30_dot_balls', 0,24,9)
-    prev_30_boundaries = st.sidebar.slider('prev_30_boundaries', 0,24,3)
+    total_score = st.sidebar.slider('Total Score', 10,250,87)
+    total_wickets = st.sidebar.slider('Total Wickets', 0,9,2)
+    prev_runs_30 = st.sidebar.slider('Prev Runs_30', 10,90,39)
+    prev_wickets_30 = st.sidebar.slider('Wickets in last 5 overs', 0,9,1)
+    prev_30_dot_balls = st.sidebar.slider('Dot balls in last 5 overs', 0,24,9)
+    prev_30_boundaries = st.sidebar.slider('Boundaries in last 5 overs', 0,24,3)
     temp_array = temp_array + [overs, total_score, total_wickets, prev_runs_30, prev_wickets_30, prev_30_dot_balls, prev_30_boundaries]
     data = np.array([temp_array])
 
@@ -80,7 +80,7 @@ def user_input_features():
 input_df = user_input_features()
 
 # Displays the user input features
-st.subheader('User Input features')
+# st.subheader('User Input features')
 
 # Reads in saved classification model
 load_clf = pickle.load(open('lr-model all.pkl', 'rb'))
@@ -90,4 +90,4 @@ df = np.array(input_df)
 prediction = load_clf.predict(df)
 
 st.subheader('Predicted score')
-st.write(int(prediction))
+st.subheader(int(prediction))
