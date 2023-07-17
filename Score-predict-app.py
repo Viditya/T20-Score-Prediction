@@ -1,5 +1,6 @@
 import pickle
 
+from keras.models import load_model
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -93,12 +94,25 @@ def user_input_features():
 
 input_df = user_input_features()
 
-# Reads in saved classification model
-load_clf = pickle.load(open("lr-model all.pkl", "rb"))
+def run_model(selected, input):
+    if selected == 'linear':
+        model_path = open("lr-model all.pkl", "rb")
+        # Reads in saved classification model
+        load_clf = pickle.load(model_path)
+        df = np.array(input)
+        # Apply model to make predictions
+        prediction = load_clf.predict(df)
+    elif selected == 'neural':
+        model_path = 'nn-model-all.h5'
+        # Reads in saved neural model
+        model = load_model(model_path, compile=False)
+        model.make_predict_function()
+        df = np.array(input)
+        # Apply model to make predictions
+        prediction = model.predict(df)
+    return prediction
 
-# Apply model to make predictions
-df = np.array(input_df)
-prediction = load_clf.predict(df)
+prediction = run_model('neural', input_df)
 
 st.header("Predicted score")
 st.subheader(int(prediction))
